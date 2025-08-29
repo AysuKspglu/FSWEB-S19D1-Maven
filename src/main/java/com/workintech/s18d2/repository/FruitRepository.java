@@ -15,4 +15,6 @@ public interface FruitRepository extends JpaRepository<Fruit, Long> {
     default List<Fruit> getByPriceAsc()  { return findAllByOrderByPriceAsc(); }
     default List<Fruit> getByPriceDesc() { return findAllByOrderByPriceDesc(); }
     default List<Fruit> searchByName(String name) { return findByNameContainingIgnoreCase(name); }
+
+
 }
