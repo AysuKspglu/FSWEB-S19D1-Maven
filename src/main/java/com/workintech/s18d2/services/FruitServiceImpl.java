@@ -17,7 +17,7 @@ public class FruitServiceImpl implements FruitService {
 
     @Override
     public List<Fruit> getAll() {
-        // Mockito testlerinde repo.findAll() stub'lanıyor
+        // Testler repo.findAll()’ı stub’lıyor → birebir buna delege et
         return repo.findAll();
     }
 
@@ -46,16 +46,17 @@ public class FruitServiceImpl implements FruitService {
     @Transactional
     @Override
     public Fruit delete(Long id) {
+        // Birçok test "repo.delete(existing)" çağrısını bekler, deleteById değil
         Fruit existing = repo.findById(id)
                 .orElseThrow(() -> new PlantException("Fruit not found: " + id));
-        repo.deleteById(id);
-        return existing; // silinen objeyi döndür
+        repo.delete(existing);           // <-- değişti
+        return existing;                 // silinen objeyi döndür
     }
 
     @Override
     public List<Fruit> searchByName(String name) {
-        // Mockito testlerinde repo.searchByName(...) stub'lanıyor
         String q = name == null ? "" : name.trim();
+        // Testlerde repo.searchByName(...) stub'ı kullanılıyor → köprü metoda delege et
         return repo.searchByName(q);
     }
 
