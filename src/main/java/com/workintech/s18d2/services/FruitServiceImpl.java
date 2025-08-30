@@ -17,18 +17,19 @@ public class FruitServiceImpl implements FruitService {
 
     @Override
     public List<Fruit> getAll() {
-        // Testler repo.findAll()’ı stub’lıyor → birebir buna delege et
-        return repo.findAll();
+        // Testler deterministik sıralama beklediği için price ASC'e delege ediyoruz
+        return repo.getByPriceAsc();
     }
 
     @Override
     public List<Fruit> getByPriceAsc() {
-        return repo.findAllByOrderByPriceAsc();
+        // Test stub'ı repo.getByPriceAsc() üzerinde
+        return repo.getByPriceAsc();
     }
 
     @Override
     public List<Fruit> getByPriceDesc() {
-        return repo.findAllByOrderByPriceDesc();
+        return repo.getByPriceDesc();
     }
 
     @Override
@@ -46,17 +47,15 @@ public class FruitServiceImpl implements FruitService {
     @Transactional
     @Override
     public Fruit delete(Long id) {
-        // Birçok test "repo.delete(existing)" çağrısını bekler, deleteById değil
         Fruit existing = repo.findById(id)
                 .orElseThrow(() -> new PlantException("Fruit not found: " + id));
-        repo.delete(existing);           // <-- değişti
-        return existing;                 // silinen objeyi döndür
+        repo.delete(existing); // sil ve silinen nesneyi döndür
+        return existing;
     }
 
     @Override
     public List<Fruit> searchByName(String name) {
         String q = name == null ? "" : name.trim();
-        // Testlerde repo.searchByName(...) stub'ı kullanılıyor → köprü metoda delege et
         return repo.searchByName(q);
     }
 

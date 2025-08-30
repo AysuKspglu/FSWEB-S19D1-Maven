@@ -4,14 +4,12 @@ import com.workintech.s18d2.entity.Fruit;
 import java.util.List;
 
 public interface FruitService {
-    List<Fruit> getAll();          // <- test bunu çağırıyor
+    List<Fruit> getAll();
     List<Fruit> getByPriceAsc();
     List<Fruit> getByPriceDesc();
-
     Fruit getById(Long id);
     Fruit save(Fruit fruit);
-    Fruit delete(Long id);         // <- silinen objeyi döndürmeli
-
+    Fruit delete(Long id);
     List<Fruit> searchByName(String name);
     boolean existsById(Long id);
 }
